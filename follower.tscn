@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4obv40tpxtxq"]
-
-[ext_resource type="Script" uid="uid://btkgt3dbge2i3" path="res://follower.gd" id="1_hookf"]
-
-[node name="Follower" type="PathFollow2D"]
-rotates = false
-loop = false
-script = ExtResource("1_hookf")
