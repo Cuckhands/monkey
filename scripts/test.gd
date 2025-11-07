@@ -6,10 +6,8 @@ extends Node
 const FOLLOWER = preload("res://scenes/follower.tscn")
 const ASTEROID = preload("res://scenes/asteroid.tscn")
 
-var starting_pos: Vector2
-
 func _ready() -> void:
-	starting_pos = path.curve.get_point_position(0)
+	pass
 
 func _on_spawn_timer_timeout() -> void:
 	var follower: PathFollow2D = FOLLOWER.instantiate()
@@ -17,7 +15,6 @@ func _on_spawn_timer_timeout() -> void:
 	
 	# We're choosing to decide speed at spawn time for some reason
 	asteroid.move_speed = 200.0
-	follower.position = starting_pos
 	follower.add_child(asteroid)
 	follower.asteroid = asteroid
 	
