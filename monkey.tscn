@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://ghayaikku8ka"]
+
+[ext_resource type="Script" uid="uid://hjvf5vygrbrs" path="res://monkey.gd" id="1_to385"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1exwu"]
+radius = 128.0
+
+[sub_resource type="Curve" id="Curve_1exwu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.3, 0), 0.0, 0.0, 0, 0, Vector2(0.7, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+metadata/_snap_enabled = true
+
+[node name="Monkey" type="Node2D"]
+script = ExtResource("1_to385")
+
+[node name="VisionBox" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionBox"]
+shape = SubResource("CircleShape2D_1exwu")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+rotation = 1.5707964
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(0, -32, -32, 16, 0, 0, 32, 16)
+
+[node name="Line2D" type="Line2D" parent="."]
+rotation = 1.5707964
+points = PackedVector2Array(0, -32, -32, 16, 0, 0, 32, 16)
+closed = true
+width = 4.0
+width_curve = SubResource("Curve_1exwu")
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="area_entered" from="VisionBox" to="." method="_on_vision_box_area_entered"]
+[connection signal="area_exited" from="VisionBox" to="." method="_on_vision_box_area_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
