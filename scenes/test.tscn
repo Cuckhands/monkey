@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw6u5ye8dcfg4"]
+
+[ext_resource type="Script" uid="uid://crw3xxq4pyvk3" path="res://scripts/test.gd" id="1_6uqi0"]
+[ext_resource type="PackedScene" uid="uid://ghayaikku8ka" path="res://scenes/monkey.tscn" id="2_ppyta"]
+
+[sub_resource type="Curve2D" id="Curve2D_8uh7m"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1152, 192, 0, 0, 0, 0, 960, 192, 0, 0, 0, 0, 960, 384, 0, 0, 0, 0, 768, 384, 0, 0, 0, 0, 768, 192, 0, 0, 0, 0, 576, 192, 0, 0, 0, 0, 576, 512, 0, 0, 0, 0, 192, 504, 0, 0, 0, 0, 192, 192, 0, 0, 0, 0, 384, 192, 0, 0, 0, 0, 384, 0)
+}
+point_count = 11
+
+[node name="Test" type="Node"]
+script = ExtResource("1_6uqi0")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_8uh7m")
+
+[node name="Monkey" parent="." instance=ExtResource("2_ppyta")]
+position = Vector2(864, 304)
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.66
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
