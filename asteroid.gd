@@ -12,6 +12,7 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	pass
 
-
+# BUG: This seems to break the game alongside the free from the follower code.
+# I've temporarily set it to just queue_free its parent (the follower) instead.
 func destroy() -> void:
-	queue_free()
+	get_parent().queue_free()
