@@ -16,10 +16,13 @@ script = ExtResource("1_6uqi0")
 curve = SubResource("Curve2D_8uh7m")
 
 [node name="Monkey" parent="." instance=ExtResource("2_ppyta")]
-position = Vector2(864, 304)
+position = Vector2(864, 144)
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 0.66
 autostart = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(1005, 192)
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

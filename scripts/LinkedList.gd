@@ -1,6 +1,6 @@
-## Singley Linked List #########################################################
-extends Node
-class_name LinkedList
+## Singley Linked List
+class_name LinkedList extends Node
+
 
 # LIST #########################################################################
 ## A higher level storage class for usage similar to an Array

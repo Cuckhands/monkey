@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://busvlq5231kom" path="res://scripts/asteroid.gd" id="1_akfqu"]
 
 [node name="Asteroid" type="Area2D"]
+collision_mask = 0
 script = ExtResource("1_akfqu")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
