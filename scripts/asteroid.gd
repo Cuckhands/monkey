@@ -1,8 +1,10 @@
 extends Area2D
 class_name Asteroid
 
-@export var move_speed: float = 0.0
+signal death
 
+@export var move_speed: float = 0.0
+@export var hp: int = 2
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -12,12 +14,15 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	pass
 
-# TODO: We need to make it so that the balloon takes damage instead of just
-# getting destroyed immediately from a hit. Alternatively, we literally
-# treat this like bloons and a single hit can pop it, reducing it to a smaller
-# sized asteroid, though maybe doing so would be bad for gameplay.
+
 func hit() -> void:
-	# BUG: This seems to break the game alongside the free from the follower code.
-	# I've temporarily set it to just queue_free its parent (the follower) instead.
-	# Though, this might just be the intended permanent solution.
-	get_parent().queue_free()
+	# HP can be set to whatever tbr fr, kinda works. fixed the BUG where the 
+	# thing kills everything cuz that wasnt good lmao
+	hp -= 1
+	if hp < 1:
+		emit_signal("death")
+		if !is_queued_for_deletion():
+			queue_free()
+		#get_parent().queue_free()
+	
+	
