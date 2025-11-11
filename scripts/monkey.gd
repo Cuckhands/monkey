@@ -2,11 +2,6 @@
 class_name Monkey extends Node2D
 # TODO: Make this an @abstract class and create child monkeys that inherit it.
 
-var debug_enabled: bool = false
-var debug: Dictionary = {
-	"target_position": Vector2(0.0, 0.0)
-}
-
 ## Decides which target the monkey will choose
 enum AttackPriority {
 	## Traveled the furthest
@@ -27,6 +22,7 @@ enum AttackPriority {
 	STACK,
 }
 
+
 const DART = preload("res://scenes/dart.tscn")
 @onready var hitbox: Area2D = $Hitbox
 @onready var visual: Node2D = $Visual
@@ -34,6 +30,11 @@ const DART = preload("res://scenes/dart.tscn")
 
 ## Self-explanatory
 var current_priority := AttackPriority.NEAREST
+
+var debug_enabled: bool = false
+var debug: Dictionary = {
+	"target_position": Vector2(0.0, 0.0)
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -106,7 +107,7 @@ func _on_attack_timer_timeout() -> void:
 	if (hitbox.has_overlapping_areas()):
 		throw_dart()
 
-
+## Takes in a list of areas and then returns one based on our AttackPriority
 func get_target_area(areas: Array[Area2D], mode: AttackPriority) -> Area2D:
 	match mode:
 		AttackPriority.NEAREST:
