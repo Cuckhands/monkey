@@ -15,14 +15,20 @@ script = ExtResource("1_6uqi0")
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_8uh7m")
 
-[node name="Monkey" parent="." instance=ExtResource("2_ppyta")]
-position = Vector2(864, 144)
-
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 0.66
 autostart = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(1005, 192)
+
+[node name="Monkey" parent="." instance=ExtResource("2_ppyta")]
+position = Vector2(926, 171)
+
+[node name="Monkey2" parent="." instance=ExtResource("2_ppyta")]
+position = Vector2(728, 182)
+
+[node name="Monkey3" parent="." instance=ExtResource("2_ppyta")]
+position = Vector2(830, 312)
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

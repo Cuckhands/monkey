@@ -4,6 +4,7 @@ extends PathFollow2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	asteroid.death.connect(_on_death)
 	pass # Replace with function body.
 
 
@@ -16,3 +17,8 @@ func _physics_process(delta: float) -> void:
 		print("An asteroid reached the end!")
 		asteroid.queue_free()
 		queue_free()
+
+func _on_death() -> void:
+	if !asteroid.is_queued_for_deletion():
+		asteroid.queue_free()
+	queue_free()
