@@ -5,9 +5,9 @@ class_name Monkey extends Node2D
 ## Decides which target the monkey will choose
 enum AttackPriority {
 	## Traveled the furthest
-	LATEST,
+	FIRST,
 	## Traveled the least
-	EARLIEST, 
+	LAST, 
 	## Closest to
 	NEAREST,
 	## Farthest from
@@ -77,6 +77,7 @@ func _on_vision_box_area_exited(_area: Area2D) -> void:
 
 ## Rotates the monkey and spawns a dart pointing at the asteroid
 func throw_dart() -> void:
+	# Targets the area of the asteroid it intends to shoot
 	var target_area: Area2D
 	var areas: Array[Area2D] = hitbox.get_overlapping_areas()
 	

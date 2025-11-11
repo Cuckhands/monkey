@@ -6,14 +6,18 @@
 collision_mask = 0
 script = ExtResource("1_akfqu")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-16.248062, -29.953487, -32.248062, 10.046512, -8.248062, 34.046513, 23.751938, 18.046513, 31.751938, -21.953487)
-
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color(0, 0, 0, 1)
-polygon = PackedVector2Array(-16.248062, -29.953487, -32.248062, 10.046512, -8.248062, 34.046513, 23.751938, 18.046513, 31.751938, -21.953487)
+polygon = PackedVector2Array(-16.248062, -29.953487, -32.248062, 10.046512, -8.248062, 34.046513, 23.751938, 18.046513, 31.751938, -21.953487, 10, -36)
+uv = PackedVector2Array(-16.248062, -29.953487, -32.248062, 10.046512, -8.248062, 34.046513, 23.751938, 18.046513, 31.751938, -21.953487)
 
 [node name="Line2D" type="Line2D" parent="."]
-points = PackedVector2Array(-16.248062, -29.953487, -32.248062, 10.046512, -8.248062, 34.046513, 23.751938, 18.046513, 31.751938, -21.953487)
+points = PackedVector2Array(-16.248062, -29.953487, -32.248062, 10.046512, -8.248062, 34.046513, 23.751938, 18.046513, 31.751938, -21.953487, 10, -36)
 closed = true
 width = 4.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-33, -38, -51, 9, -23, 55, 44, 34, 55, -31, 12, -56)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
