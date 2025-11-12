@@ -1,5 +1,7 @@
 extends Area2D
 
+@onready var timer: Timer = $Timer
+
 var dart_ms: float = 1000.0
 
 # Called when the node enters the scene tree for the first time.
@@ -15,4 +17,8 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	area.hit()
+	queue_free()
+
+# After the dart travels for the timer's length (1 second), it dies.
+func _on_timer_timeout() -> void:
 	queue_free()

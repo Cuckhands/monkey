@@ -1,7 +1,8 @@
 extends Area2D
 class_name Asteroid
 
-signal death
+## Emitted when the asteroid is destroyed
+signal died
 
 @onready var line_2d: Line2D = $Line2D
 
@@ -18,11 +19,9 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	pass
 
-
+# Highlights the Asteroid when hovered
 func _on_mouse_entered() -> void:
 	line_2d.default_color = Color.LIME_GREEN
-	
-
 func _on_mouse_exited() -> void:
 	line_2d.default_color = Color.WHITE
 
@@ -31,7 +30,7 @@ func hit() -> void:
 	# thing kills everything cuz that wasnt good lmao
 	hp -= 1
 	if hp < 1:
-		emit_signal("death")
+		emit_signal("died")
 		if !is_queued_for_deletion():
 			queue_free()
 		#get_parent().queue_free()
