@@ -28,6 +28,8 @@ enum AttackPriority {
 @export var hitbox: Area2D = null
 @export var visual: Node2D = null
 @export var attack_timer: Timer = null
+@export var damage: int
+@export var attack_speed: float
 
 ## Self-explanatory
 var current_priority := AttackPriority.NEAREST
@@ -42,12 +44,19 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	attack_timer.wait_time = 1/attack_speed
 	attack_timer.stop()
 	attack_timer.timeout.connect(_on_attack_timer_timeout)
 	hitbox.area_entered.connect(_on_vision_box_area_entered)
 	hitbox.area_exited.connect(_on_vision_box_area_exited)
-	
+	print("READY CALLED")
+	call_deferred("setup")
+	print("READY FINISHED")
 
+func setup() -> void:
+	print("SETUP CALLED")
+	
+	
 
 # Called 60 times a second. 'delta' is the elapsed time since the previous tick.
 func _physics_process(_delta: float) -> void:
@@ -76,7 +85,7 @@ func _draw() -> void:
 # This only recognizes when an object enters and is not a constant check.
 func _on_vision_box_area_entered(_area: Area2D) -> void:
 	if attack_timer.is_stopped():
-		call_deferred("throw_projectile")
+		call_deferred("throw")
 
 
 func _on_vision_box_area_exited(_area: Area2D) -> void:
@@ -85,6 +94,7 @@ func _on_vision_box_area_exited(_area: Area2D) -> void:
 
 ## Rotates the monkey and spawns a projectile pointing at the asteroid
 func throw() -> void:
+	
 	# Targets the area of the asteroid it intends to shoot
 	var target_area: Area2D
 	var areas: Array[Area2D] = hitbox.get_overlapping_areas()
