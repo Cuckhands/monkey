@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://yahqb7m1uuf8"]
+[gd_scene load_steps=5 format=3 uid="uid://yahqb7m1uuf8"]
 
 [ext_resource type="Script" uid="uid://biuebsnlp828v" path="res://scripts/dart_monkey.gd" id="1_20gkq"]
+[ext_resource type="PackedScene" uid="uid://bahbwvb43u4yi" path="res://scenes/dart.tscn" id="2_20gkq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_20gkq"]
 radius = 128.0
@@ -10,8 +11,12 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.3, 0), 0.0, 0.0, 0, 0, Vector2
 point_count = 4
 metadata/_snap_enabled = true
 
-[node name="Dart Monkey" type="Node2D"]
+[node name="Dart Monkey" type="Node2D" node_paths=PackedStringArray("hitbox", "visual", "attack_timer")]
 script = ExtResource("1_20gkq")
+PROJECTILE = ExtResource("2_20gkq")
+hitbox = NodePath("Hitbox")
+visual = NodePath("Visual")
+attack_timer = NodePath("AttackTimer")
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 0

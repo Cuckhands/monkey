@@ -23,11 +23,11 @@ enum AttackPriority {
 	STACK,
 }
 
-
-@onready var PROJECTILE: PackedScene = null
-@onready var hitbox: Area2D = null
-@onready var visual: Node2D = null
-@onready var attack_timer: Timer = null
+# Swap them out for export so we can change them with each Monkey-type
+@export var PROJECTILE: PackedScene = null
+@export var hitbox: Area2D = null
+@export var visual: Node2D = null
+@export var attack_timer: Timer = null
 
 ## Self-explanatory
 var current_priority := AttackPriority.NEAREST
