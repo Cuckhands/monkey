@@ -25,10 +25,10 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	line_2d.default_color = Color.WHITE
 
-func hit() -> void:
+func hit(damage: int) -> void:
 	# HP can be set to whatever tbr fr, kinda works. fixed the BUG where the 
 	# thing kills everything cuz that wasnt good lmao
-	hp -= 1
+	hp -= damage
 	if hp < 1:
 		emit_signal("died")
 		if !is_queued_for_deletion():
