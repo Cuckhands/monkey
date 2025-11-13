@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://yahqb7m1uuf8"]
+
+[ext_resource type="Script" uid="uid://biuebsnlp828v" path="res://scripts/dart_monkey.gd" id="1_20gkq"]
+[ext_resource type="PackedScene" uid="uid://bahbwvb43u4yi" path="res://scenes/dart.tscn" id="2_20gkq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_20gkq"]
+radius = 128.0
+
+[sub_resource type="Curve" id="Curve_2ggic"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.3, 0), 0.0, 0.0, 0, 0, Vector2(0.7, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+metadata/_snap_enabled = true
+
+[node name="Dart Monkey" type="Node2D" node_paths=PackedStringArray("hitbox", "visual", "attack_timer")]
+script = ExtResource("1_20gkq")
+PROJECTILE = ExtResource("2_20gkq")
+hitbox = NodePath("Hitbox")
+visual = NodePath("Visual")
+attack_timer = NodePath("AttackTimer")
+base_attack_speed = 1.0
+base_damage = 1
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_20gkq")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="Visual"]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(32, 0, -16, -32, 0, 0, -16, 32)
+
+[node name="Line2D" type="Line2D" parent="Visual"]
+points = PackedVector2Array(32, 0, -16, -32, 0, 0, -16, 32)
+closed = true
+width = 4.0
+width_curve = SubResource("Curve_2ggic")
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
