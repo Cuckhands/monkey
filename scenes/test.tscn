@@ -21,5 +21,6 @@ autostart = true
 
 [node name="Dart Monkey" parent="." instance=ExtResource("2_bl13t")]
 position = Vector2(865, 268)
+base_damage = 2
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

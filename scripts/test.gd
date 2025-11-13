@@ -6,6 +6,8 @@ extends Node
 const FOLLOWER = preload("res://scenes/follower.tscn")
 const ASTEROID = preload("res://scenes/asteroid.tscn")
 
+var debug_enabled = false
+
 func _ready() -> void:
 	pass
 
@@ -19,4 +21,10 @@ func _on_spawn_timer_timeout() -> void:
 	follower.asteroid = asteroid
 	
 	path.add_child(follower)
-	
+
+# Handles all remaining individual input events.
+func _unhandled_input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("debug"):
+			debug_enabled = !debug_enabled
+			print("TOGGLED DEBUG ", "ON" if debug_enabled else "OFF")
+			emit_signal("debug_on")

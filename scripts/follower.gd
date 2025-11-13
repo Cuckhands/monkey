@@ -7,7 +7,6 @@ func _ready() -> void:
 	asteroid.died.connect(_on_death)
 	pass # Replace with function body.
 
-
 # Called 60 times a second. 'delta' is the elapsed time since the previous tick.
 func _physics_process(delta: float) -> void:
 	# Moves the asteroid down the line

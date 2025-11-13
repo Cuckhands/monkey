@@ -17,8 +17,8 @@ PROJECTILE = ExtResource("2_20gkq")
 hitbox = NodePath("Hitbox")
 visual = NodePath("Visual")
 attack_timer = NodePath("AttackTimer")
-attack_speed = 1000.0
-damage = 1
+base_attack_speed = 1.0
+base_damage = 1
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 0

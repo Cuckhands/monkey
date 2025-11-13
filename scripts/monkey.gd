@@ -29,8 +29,8 @@ enum AttackPriority {
 @export var hitbox: Area2D = null
 @export var visual: Node2D = null
 @export var attack_timer: Timer = null
-@export var attack_speed: float # Timer should be 1/speed
-@export var damage: int
+@export var base_attack_speed: float # Timer should be 1/base_attack_speed
+@export var base_damage: int
 
 ## Self-explanatory
 var current_priority := AttackPriority.NEAREST
@@ -42,7 +42,7 @@ var debug: Dictionary = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	attack_timer.wait_time = 1.0 / attack_speed
+	attack_timer.wait_time = 1.0 / base_attack_speed
 	attack_timer.stop()
 	attack_timer.timeout.connect(_on_attack_timer_timeout)
 	hitbox.area_entered.connect(_on_hitbox_area_entered)
@@ -57,12 +57,12 @@ func _physics_process(_delta: float) -> void:
 func _process(_delta: float) -> void:
 	pass
 
-# Handles all remaining individual input events.
-func _unhandled_input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed("debug"):
-			debug_enabled = !debug_enabled
-			print("TOGGLED DEBUG ", "ON" if debug_enabled else "OFF")
-			queue_redraw()
+## Handles all remaining individual input events.
+#func _unhandled_input(_event: InputEvent) -> void:
+	#if Input.is_action_just_pressed("debug"):
+			#debug_enabled = !debug_enabled
+			#print("TOGGLED DEBUG ", "ON" if debug_enabled else "OFF")
+			#queue_redraw()
 
 # This is the only place draw functions can be called.
 func _draw() -> void:
@@ -96,10 +96,11 @@ func throw() -> void:
 	
 	# Creates the projectile and rotates it
 	var projectile: Area2D = PROJECTILE.instantiate()
-	
+	projectile.damage = base_damage
 	get_parent().add_child(projectile)
 	projectile.rotate(visual.rotation)
 	projectile.position = position
+	
 	
 	attack_timer.start()
 
