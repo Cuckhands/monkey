@@ -6,7 +6,8 @@ extends Node
 const FOLLOWER = preload("res://scenes/follower.tscn")
 const ASTEROID = preload("res://scenes/asteroid.tscn")
 
-var debug_enabled = false
+var is_debug_enabled = false
+var monkeys: Array[Monkey] = []
 
 func _ready() -> void:
 	pass
@@ -25,6 +26,20 @@ func _on_spawn_timer_timeout() -> void:
 # Handles all remaining individual input events.
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("debug"):
-			debug_enabled = !debug_enabled
-			print("TOGGLED DEBUG ", "ON" if debug_enabled else "OFF")
-			emit_signal("debug_on")
+			is_debug_enabled = !is_debug_enabled
+			print("TOGGLED DEBUG ", "ON" if is_debug_enabled else "OFF")
+			for monkey in monkeys:
+				monkey.is_debug_enabled = is_debug_enabled
+				monkey.queue_redraw()
+
+
+func _on_child_entered_tree(node: Node) -> void:
+	if node is Monkey:
+		monkeys.append(node)
+		print("Added a monkey: ", node)
+
+func _on_child_exiting_tree(node: Node) -> void:
+	# This code has not been tested. Expect bugs.
+	if node is Monkey:
+		monkeys.erase(node)
+		print("Removed a monkey: ", node)

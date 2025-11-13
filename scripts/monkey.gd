@@ -35,7 +35,7 @@ enum AttackPriority {
 ## Self-explanatory
 var current_priority := AttackPriority.NEAREST
 
-var debug_enabled: bool = false
+var is_debug_enabled: bool = false
 var debug: Dictionary = {
 	"target_position": Vector2(0.0, 0.0)
 }
@@ -57,16 +57,13 @@ func _physics_process(_delta: float) -> void:
 func _process(_delta: float) -> void:
 	pass
 
-## Handles all remaining individual input events.
-#func _unhandled_input(_event: InputEvent) -> void:
-	#if Input.is_action_just_pressed("debug"):
-			#debug_enabled = !debug_enabled
-			#print("TOGGLED DEBUG ", "ON" if debug_enabled else "OFF")
-			#queue_redraw()
+# Handles all remaining individual input events.
+func _unhandled_input(_event: InputEvent) -> void:
+	pass
 
 # This is the only place draw functions can be called.
 func _draw() -> void:
-	if debug_enabled:
+	if is_debug_enabled:
 		draw_circle(debug["target_position"], 6.0, Color.RED)
 
 # This only recognizes when an object enters and is not a constant check.
@@ -87,7 +84,7 @@ func throw() -> void:
 	if !target_area: return
 	var target_position: Vector2 = target_area.global_position
 	
-	if (debug_enabled):
+	if (is_debug_enabled):
 		debug["target_position"] = target_position - position
 		queue_redraw()
 	
