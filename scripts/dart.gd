@@ -10,7 +10,6 @@ var pierce: int = 0
 func _ready() -> void:
 	pass
 
-
 # Called 60 times a second. 'delta' is the elapsed time since the previous tick.
 func _physics_process(delta: float) -> void:
 	if (!is_queued_for_deletion()):

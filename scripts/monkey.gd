@@ -1,7 +1,8 @@
-## Base Monkey type
-@abstract 
-class_name Monkey extends Node2D
-# TODO: Make this an @abstract class and create child monkeys that inherit it.
+## Base Monkey node, inherited by all Monkey types (Dart, Boomerang, etc...)
+@abstract class_name Monkey extends Node2D
+
+# Make sure to keep the collision masks and collision layers updated for all
+# monkeys, asteroids, and projectiles.
 
 ## Decides which target the monkey will choose
 enum AttackPriority {
@@ -23,13 +24,13 @@ enum AttackPriority {
 	STACK,
 }
 
-# Swap them out for export so we can change them with each Monkey-type
+# These are exported so we can change them within each Monkey-type
 @export var PROJECTILE: PackedScene = null
 @export var hitbox: Area2D = null
 @export var visual: Node2D = null
 @export var attack_timer: Timer = null
+@export var attack_speed: float # Timer should be 1/speed
 @export var damage: int
-@export var attack_speed: float
 
 ## Self-explanatory
 var current_priority := AttackPriority.NEAREST
@@ -39,24 +40,13 @@ var debug: Dictionary = {
 	"target_position": Vector2(0.0, 0.0)
 }
 
-func _init():
-	print("Monkey Initialized")
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	attack_timer.wait_time = 1/attack_speed
+	attack_timer.wait_time = 1.0 / attack_speed
 	attack_timer.stop()
 	attack_timer.timeout.connect(_on_attack_timer_timeout)
-	hitbox.area_entered.connect(_on_vision_box_area_entered)
-	hitbox.area_exited.connect(_on_vision_box_area_exited)
-	print("READY CALLED")
-	call_deferred("setup")
-	print("READY FINISHED")
-
-func setup() -> void:
-	print("SETUP CALLED")
-	
-	
+	hitbox.area_entered.connect(_on_hitbox_area_entered)
+	hitbox.area_exited.connect(_on_hitbox_area_exited)
 
 # Called 60 times a second. 'delta' is the elapsed time since the previous tick.
 func _physics_process(_delta: float) -> void:
@@ -67,7 +57,6 @@ func _physics_process(_delta: float) -> void:
 func _process(_delta: float) -> void:
 	pass
 
-
 # Handles all remaining individual input events.
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("debug"):
@@ -75,31 +64,27 @@ func _unhandled_input(_event: InputEvent) -> void:
 			print("TOGGLED DEBUG ", "ON" if debug_enabled else "OFF")
 			queue_redraw()
 
-
 # This is the only place draw functions can be called.
 func _draw() -> void:
 	if debug_enabled:
 		draw_circle(debug["target_position"], 6.0, Color.RED)
 
-
 # This only recognizes when an object enters and is not a constant check.
-func _on_vision_box_area_entered(_area: Area2D) -> void:
+func _on_hitbox_area_entered(_area: Area2D) -> void:
 	if attack_timer.is_stopped():
 		call_deferred("throw")
 
-
-func _on_vision_box_area_exited(_area: Area2D) -> void:
-	pass
-
+func _on_hitbox_area_exited(_area: Area2D) -> void:
+	pass # Nothing yet
 
 ## Rotates the monkey and spawns a projectile pointing at the asteroid
 func throw() -> void:
-	
-	# Targets the area of the asteroid it intends to shoot
+	# Indentifies which area (asteroid) it intends to shoot
 	var target_area: Area2D
 	var areas: Array[Area2D] = hitbox.get_overlapping_areas()
-	
 	target_area = get_target_area(areas, current_priority)
+	# If no area is found, cancel the throw
+	if !target_area: return
 	var target_position: Vector2 = target_area.global_position
 	
 	if (debug_enabled):
@@ -112,9 +97,6 @@ func throw() -> void:
 	# Creates the projectile and rotates it
 	var projectile: Area2D = PROJECTILE.instantiate()
 	
-	# BUG: Something goes wrong here when the _area_entered calls this function
-	# and the projectile gets thrown. It specifically calls out this line for changing
-	# its state while "flushing queries".
 	get_parent().add_child(projectile)
 	projectile.rotate(visual.rotation)
 	projectile.position = position
@@ -135,9 +117,6 @@ func get_target_area(areas: Array[Area2D], mode: AttackPriority) -> Area2D:
 			return get_farthest_area(areas)
 	return null
 
-
-# Make sure to keep the collision masks and collision layers updated for
-# both monkeys and asteroids.
 ## Gets the asteroid nearest to the monkey.
 func get_nearest_area(areas: Array[Area2D]) -> Area2D:
 	var nearest_distance: float = INF

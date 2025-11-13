@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqht8dp8xxdfm"]
+[gd_scene load_steps=5 format=3 uid="uid://yahqb7m1uuf8"]
 
 [ext_resource type="Script" uid="uid://biuebsnlp828v" path="res://scripts/dart_monkey.gd" id="1_20gkq"]
 [ext_resource type="PackedScene" uid="uid://bahbwvb43u4yi" path="res://scenes/dart.tscn" id="2_20gkq"]
@@ -17,8 +17,8 @@ PROJECTILE = ExtResource("2_20gkq")
 hitbox = NodePath("Hitbox")
 visual = NodePath("Visual")
 attack_timer = NodePath("AttackTimer")
+attack_speed = 1000.0
 damage = 1
-attack_speed = 4.0
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 0
