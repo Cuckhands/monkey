@@ -33,7 +33,7 @@ enum AttackPriority {
 @export var base_damage: int
 
 ## Self-explanatory
-var current_priority := AttackPriority.NEAREST
+var current_priority := AttackPriority.FIRST
 
 var is_debug_enabled: bool = false
 var debug: Dictionary = {
@@ -98,7 +98,6 @@ func throw() -> void:
 	projectile.rotate(visual.rotation)
 	projectile.position = position
 	
-	
 	attack_timer.start()
 
 ## Throws a projectile upon timer completion if there is at least one asteroid inside
@@ -113,7 +112,16 @@ func get_target_area(areas: Array[Area2D], mode: AttackPriority) -> Area2D:
 			return get_nearest_area(areas)
 		AttackPriority.FARTHEST:
 			return get_farthest_area(areas)
-	return null
+		AttackPriority.FIRST:
+			return get_first_area(areas)
+		AttackPriority.LAST:
+			return get_last_area(areas)
+		AttackPriority.HEALTHIEST:
+			return get_healthiest_area(areas)
+		AttackPriority.WEAKEST:
+			return get_weakest_area(areas)
+		_:
+			return null
 
 ## Gets the asteroid nearest to the monkey.
 func get_nearest_area(areas: Array[Area2D]) -> Area2D:
@@ -121,6 +129,7 @@ func get_nearest_area(areas: Array[Area2D]) -> Area2D:
 	var nearest_area: Area2D = null
 	for area in areas:
 		if global_position.distance_to(area.global_position) < nearest_distance:
+			nearest_distance = global_position.distance_to(area.global_position)
 			nearest_area = area
 	return nearest_area
 
@@ -130,5 +139,48 @@ func get_farthest_area(areas: Array[Area2D]) -> Area2D:
 	var farthest_area: Area2D = null
 	for area in areas:
 		if global_position.distance_to(area.global_position) > farthest_distance:
+			farthest_distance = global_position.distance_to(area.global_position)
 			farthest_area = area
 	return farthest_area
+
+## Gets the asteroid with the highest progress following the path.
+func get_first_area(areas: Array[Area2D]) -> Area2D:
+	var highest_progress: float = -1.0
+	var furthest_area: Area2D = null
+	for area in areas:
+		var follower_progress: float = area.follower.progress
+		if follower_progress > highest_progress:
+			highest_progress = follower_progress
+			furthest_area = area
+	return furthest_area
+
+## Gets the asteroid with the lowest progress following the path.
+func get_last_area(areas: Array[Area2D]) -> Area2D:
+	var lowest_progress: float = INF
+	var tardiest_area: Area2D = null
+	for area in areas:
+		var follower_progress: float = area.follower.progress
+		if follower_progress < lowest_progress:
+			lowest_progress = follower_progress
+			tardiest_area = area
+	return tardiest_area
+
+## Gets the asteroid with the highest current health.
+func get_healthiest_area(areas: Array[Area2D]) -> Area2D:
+	var highest_hp: int = 0
+	var healthiest_area: Area2D = null
+	for area in areas:
+		if (area.hp > highest_hp):
+			highest_hp = area.hp
+			healthiest_area = area
+	return healthiest_area
+
+## Gets the asteroid with the lowest current health.
+func get_weakest_area(areas: Array[Area2D]) -> Area2D:
+	var lowest_hp: int = (1 << 32) - 1 # 32-bit integer MAXIMUM
+	var weakest_area: Area2D = null
+	for area in areas:
+		if (area.hp < lowest_hp): # Consider adding `&& area.hp > 0`
+			lowest_hp = area.hp
+			weakest_area = area
+	return weakest_area

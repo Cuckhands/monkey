@@ -13,7 +13,7 @@ func _physics_process(delta: float) -> void:
 	progress += asteroid.move_speed * delta
 	
 	if progress_ratio >= 1.0:
-		print("An asteroid reached the end!")
+		print("An asteroid reached the end, dealing ", asteroid.hp, " damage!")
 		asteroid.queue_free()
 		queue_free()
 
