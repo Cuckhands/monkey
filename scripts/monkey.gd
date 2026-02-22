@@ -65,6 +65,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 func _draw() -> void:
 	if is_debug_enabled:
 		draw_circle(debug["target_position"], 6.0, Color.RED)
+		draw_line(Vector2.ZERO, debug["target_position"], Color.RED)
 
 # This only recognizes when an object enters and is not a constant check.
 func _on_hitbox_area_entered(_area: Area2D) -> void:
